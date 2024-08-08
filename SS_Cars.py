@@ -70,7 +70,7 @@ def gather_all_advertisement_urls(page_urls):
 #%%
 
     # URL (adjust to the correct base URL)
-base_url = 'https://www.ss.com/lv/transport/cars/bmw/'
+base_url = 'https://www.ss.com/lv/transport/cars/alfa-romeo/'
 
 
 #%%
@@ -191,3 +191,44 @@ def create_car_data_frame(all_advertisement_urls):
 df_car_data = create_car_data_frame(all_advertisement_urls)
 
 
+
+# %%
+
+# Clean Data
+
+loc_0 = df_car_data.columns.get_loc('Price')
+df_car_data_split = df_car_data['Price'].str.split(pat='€', expand=True).add_prefix('Price_')
+df_car_data = pd.concat([df_car_data.iloc[:, :loc_0], df_car_data_split, df_car_data.iloc[:, loc_0:]], axis=1)
+df_car_data = df_car_data.drop(columns=['Price'])
+
+# Drop column: 'Price_1'
+df_car_data = df_car_data.drop(columns=['Price_1'])
+
+# Replace all instances of " " with "" in column: 'Price_0'
+df_car_data['Price_0'] = df_car_data['Price_0'].str.replace(" ", "", case=False, regex=False)
+
+# Split text using string ' ' in column: 'Motor Type'
+
+loc_0 = df_car_data.columns.get_loc('Motor Type')
+df_car_data_split = df_car_data['Motor Type'].str.split(expand=True).add_prefix('Motor Type_')
+df_car_data = pd.concat([df_car_data.iloc[:, :loc_0], df_car_data_split, df_car_data.iloc[:, loc_0:]], axis=1)
+df_car_data = df_car_data.drop(columns=['Motor Type'])
+
+# Remove leading and trailing whitespace in column: 'Motor Type_1'
+df_car_data['Motor Type_1'] = df_car_data['Motor Type_1'].str.strip()
+
+# Split text using string ' ' in column: 'Year'
+
+loc_0 = df_car_data.columns.get_loc('Year')
+df_car_data_split = df_car_data['Year'].str.split(expand=True).add_prefix('Year_')
+df_car_data = pd.concat([df_car_data.iloc[:, :loc_0], df_car_data_split, df_car_data.iloc[:, loc_0:]], axis=1)
+df_car_data = df_car_data.drop(columns=['Year'])
+
+# Rename column 'Year_1' to 'Month'
+df_car_data = df_car_data.rename(columns={'Year_1': 'Month'})
+
+# Rename column 'Year_0' to 'Year'
+df_car_data = df_car_data.rename(columns={'Year_0': 'Year'})
+
+
+# %%
