@@ -93,3 +93,82 @@ page_urls = generate_page_urls(base_url, last_page_num)
 all_advertisement_urls = gather_all_advertisement_urls(page_urls)
     
 # %%
+
+
+# Helper function to get the BeautifulSoup object from a URL
+def get_url_text_html(url):
+    response = requests.get(url)
+    response.raise_for_status()
+    return BeautifulSoup(response.content, 'html.parser')
+
+# 1. Get the Model of the car
+def get_car_model(url):
+    soup = get_url_text_html(url)
+    model_soup = soup.find(id="tdo_31")
+    return model_soup.get_text(strip=True) if model_soup else "NA"
+
+# 2. Get the Year of the car
+def get_car_year(url):
+    soup = get_url_text_html(url)
+    year_soup = soup.find(id="tdo_18")
+    return year_soup.get_text(strip=True) if year_soup else "NA"
+
+# 3. Get the Type of Motor of the car
+def get_car_motor_type(url):
+    soup = get_url_text_html(url)
+    motor_type_soup = soup.find(id="tdo_15")
+    return motor_type_soup.get_text(strip=True) if motor_type_soup else "NA"
+
+# 4. Get the Transmission of the car
+def get_car_transmission(url):
+    soup = get_url_text_html(url)
+    transmission_soup = soup.find(id="tdo_35")
+    return transmission_soup.get_text(strip=True) if transmission_soup else "NA"
+
+# 5. Get the Mileage of the car
+def get_car_mileage(url):
+    soup = get_url_text_html(url)
+    mileage_soup = soup.find(id="tdo_16")
+    return mileage_soup.get_text(strip=True) if mileage_soup else "NA"
+
+# 6. Get the Color of the car
+def get_car_color(url):
+    soup = get_url_text_html(url)
+    color_soup = soup.find(id="tdo_17")
+    if color_soup:
+        color_text = color_soup.get_text(strip=True)
+        # Extract the first word (which is the color) before any additional details like 'metālika'
+        color = color_text.split()[0]
+        return color
+    return "NA"
+
+# 7. Get the Body Type of the car
+def get_car_body_type(url):
+    soup = get_url_text_html(url)
+    body_type_soup = soup.find(id="tdo_32")
+    return body_type_soup.get_text(strip=True) if body_type_soup else "NA"
+
+# 8. Get the Price of the car
+def get_car_price(url):
+    soup = get_url_text_html(url)
+    price_soup = soup.find(id="tdo_8")
+    return price_soup.get_text(strip=True) if price_soup else "NA"
+
+# Example of gathering all details for one ad
+def gather_car_details(url):
+    details = {
+        "Model": get_car_model(url),
+        "Year": get_car_year(url),
+        "Motor Type": get_car_motor_type(url),
+        "Transmission": get_car_transmission(url),
+        "Mileage": get_car_mileage(url),
+        "Color": get_car_color(url),
+        "Body Type": get_car_body_type(url),
+        "Price": get_car_price(url)
+    }
+    return details
+
+
+# Gather and print details for the given ad URL
+car_details = gather_car_details()
+  
