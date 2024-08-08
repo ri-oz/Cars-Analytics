@@ -169,6 +169,25 @@ def gather_car_details(url):
     return details
 
 
-# Gather and print details for the given ad URL
-car_details = gather_car_details()
-  
+
+# %%
+
+# Function to gather data for all ads and create a DataFrame
+def create_car_data_frame(all_advertisement_urls):
+    car_data = []
+    for url in all_advertisement_urls:
+        print(f"Processing URL: {url}")  # For tracking progress
+        details = gather_car_details(url)
+        car_data.append(details)
+    
+    # Convert the list of dictionaries to a DataFrame
+    df = pd.DataFrame(car_data)
+    return df
+
+
+#%%
+
+# Function to gather data for all ads and create a DataFrame
+df_car_data = create_car_data_frame(all_advertisement_urls)
+
+
