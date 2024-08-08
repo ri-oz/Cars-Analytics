@@ -70,7 +70,7 @@ def gather_all_advertisement_urls(page_urls):
 #%%
 
     # URL (adjust to the correct base URL)
-base_url = 'https://www.ss.com/lv/transport/cars/alfa-romeo/'
+base_url = 'https://www.ss.com/lv/transport/cars/renault/'
 
 
 #%%
@@ -231,4 +231,10 @@ df_car_data = df_car_data.rename(columns={'Year_1': 'Month'})
 df_car_data = df_car_data.rename(columns={'Year_0': 'Year'})
 
 
+# %%
+
+
+df_car_data['Year'] = pd.to_numeric(df_car_data['Year'], errors='coerce', downcast='integer')
+df_car_data['Mileage'] = pd.to_numeric(df_car_data['Mileage'], errors='coerce', downcast='integer')
+df_car_data['Price_0'] = pd.to_numeric(df_car_data['Price_0'], errors='coerce', downcast='integer')
 # %%
