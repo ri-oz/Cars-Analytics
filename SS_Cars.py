@@ -70,7 +70,7 @@ def gather_all_advertisement_urls(page_urls):
 #%%
 
     # URL (adjust to the correct base URL)
-base_url = 'https://www.ss.com/lv/transport/cars/renault/'
+base_url = 'https://www.ss.com/lv/transport/cars/nissan/'
 
 
 #%%
@@ -176,7 +176,6 @@ def gather_car_details(url):
 def create_car_data_frame(all_advertisement_urls):
     car_data = []
     for url in all_advertisement_urls:
-        print(f"Processing URL: {url}")  # For tracking progress
         details = gather_car_details(url)
         car_data.append(details)
     
@@ -207,6 +206,9 @@ df_car_data = df_car_data.drop(columns=['Price_1'])
 # Replace all instances of " " with "" in column: 'Price_0'
 df_car_data['Price_0'] = df_car_data['Price_0'].str.replace(" ", "", case=False, regex=False)
 
+# Replace all instances of " " with "" in column: 'Mileage'
+df_car_data['Mileage_1'] = df_car_data['Mileage'].str.replace(" ", "", case=False, regex=False)
+
 # Split text using string ' ' in column: 'Motor Type'
 
 loc_0 = df_car_data.columns.get_loc('Motor Type')
@@ -230,11 +232,13 @@ df_car_data = df_car_data.rename(columns={'Year_1': 'Month'})
 # Rename column 'Year_0' to 'Year'
 df_car_data = df_car_data.rename(columns={'Year_0': 'Year'})
 
+df_car_data['Year'] = pd.to_numeric(df_car_data['Year'], errors='coerce', downcast='integer')
+df_car_data['Mileage_1'] = pd.to_numeric(df_car_data['Mileage_1'], errors='coerce', downcast='integer')
+df_car_data['Price_0'] = pd.to_numeric(df_car_data['Price_0'], errors='coerce', downcast='integer')
+
 
 # %%
 
-
-df_car_data['Year'] = pd.to_numeric(df_car_data['Year'], errors='coerce', downcast='integer')
-df_car_data['Mileage'] = pd.to_numeric(df_car_data['Mileage'], errors='coerce', downcast='integer')
-df_car_data['Price_0'] = pd.to_numeric(df_car_data['Price_0'], errors='coerce', downcast='integer')
+# Drop column: 'Mileage'
+df_car_data = df_car_data.drop(columns=['Mileage'])
 # %%
