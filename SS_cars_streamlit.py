@@ -46,7 +46,7 @@ df_count_model_details = df_Car.groupby('Manuf')['Model Details'].count().reset_
 st.dataframe(df_count_model_details)
 
 st.bar_chart(df_count_model_details)
-st.bar_chart(df_count_model_details, x="Manuf", y="Count", color="col3")
+st.bar_chart(df_count_model_details, x="Manuf", y="Count Model", color="Count Model")
 
 # 3. Average year by Model Details
 df_avg_year = df_Car.groupby('Model Details')['Year'].mean().reset_index()
