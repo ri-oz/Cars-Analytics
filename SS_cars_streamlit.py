@@ -49,9 +49,9 @@ st.dataframe(df_Car)
 
 st.header('Auto pārskats')
 
-st.bar_chart(df_Car_analytics_Pilseta_skaits)
+st.bar_chart(df_Car_analytics_Model_skaits)
 
-st.dataframe(df_Car_analytics_Pilseta_skaits)
+st.dataframe(df_Car_analytics_Model_skaits)
 
 
 # Type of land overview question
