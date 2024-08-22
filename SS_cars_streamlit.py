@@ -16,15 +16,6 @@ url = 'https://raw.githubusercontent.com/ri-oz/Cars-Analytics/main/CarData.csv'
 
 df_Car = pd.read_csv(url, index_col=0)
 
-# Drop error / na rows
-
-df_Car.dropna(how='any')
-
-
-df_Car_analytics_Model_skaits = df_Car['Model'].value_counts(ascending=True)
-
-df_Car_analytics_Body_Type_skaits = df_Car['Body Type'].value_counts(ascending=True)
-
 # Title
 
 st.title('Auto Cenu pārskats Latvijā')
@@ -45,22 +36,7 @@ st.header('Sludinājumu dati')
 st.dataframe(df_Car)
 
 
-# overview section
 
-st.header('Auto pārskats')
-
-st.bar_chart(df_Car_analytics_Model_skaits)
-
-st.dataframe(df_Car_analytics_Model_skaits)
-
-
-# Type of land overview question
-
-st.header('Body Type')
-
-st.bar_chart(df_Car_analytics_Body_Type_skaits)
-
-st.dataframe(df_Car_analytics_Body_Type_skaits)
 
 
 
