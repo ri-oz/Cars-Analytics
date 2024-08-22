@@ -34,8 +34,7 @@ st.write(df_Car.describe())
 # Create a section for the dataframe
 st.header('Sludinājumu dati')
 st.dataframe(df_Car)
-
-st.bar_chart(df_count_model_details)
+
 
 # 1. Average price and mileage per Model Details and Manuf
 df_avg_price_mileage = df_Car.groupby(['Model Details', 'Manuf'])[['Price', 'Mileage']].mean().reset_index()
@@ -44,6 +43,8 @@ st.dataframe(df_avg_price_mileage)
 # 2. Count of Model Details per Manuf
 df_count_model_details = df_Car.groupby('Manuf')['Model Details'].count().reset_index(name='Count of Model Details')
 st.dataframe(df_count_model_details)
+
+st.bar_chart(df_count_model_details)
 
 # 3. Average year by Model Details
 df_avg_year = df_Car.groupby('Model Details')['Year'].mean().reset_index()
