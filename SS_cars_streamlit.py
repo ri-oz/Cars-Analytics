@@ -45,7 +45,14 @@ st.dataframe(df_avg_price_mileage)
 df_count_model_details = df_Car.groupby('Manuf')['Model Details'].count().reset_index(name='Count Model')
 st.dataframe(df_count_model_details)
 
-st.bar_chart(df_count_model_details)
+st.scatter_chart(
+    df_avg_price_mileage,
+    x="Price",
+    y="Mileage",
+    color="Manuf",
+    size="Price",
+)
+
 st.bar_chart(df_count_model_details, x="Manuf", y="Count Model", color="Count Model")
 
 # 3. Average year by Model Details
