@@ -45,14 +45,19 @@ st.dataframe(df_avg_price_mileage)
 df_count_model_details = df_Car.groupby('Manuf')['Model Details'].count().reset_index(name='Count Model')
 st.dataframe(df_count_model_details)
 
-# Multi-select widget using 'Model' column as options
+# Multi-select widget to filter models
 selected_models = st.multiselect(
     'Select Model(s)',
-    options=df_avg_price_mileage['Manuf'].unique(),  # Options from 'Model' column
-    default=None  # You can set a default selection if needed
+    options=df_avg_price_mileage['Manuf'].unique(),
+    default=df_avg_price_mileage['Manuf'].unique()
 )
+
+# Filter the DataFrame based on selected models
+filtered_df = df_avg_price_mileage[df_avg_price_mileage['Manuf'].isin(selected_models)]
+
+# Scatter chart showing filtered data
 st.scatter_chart(
-    df_avg_price_mileage,
+    filtered_df,
     x="Price",
     y="Mileage",
     color="Manuf",
