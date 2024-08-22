@@ -56,7 +56,6 @@ st.scatter_chart(
     x="Price",
     y="Mileage",
     color="Manuf",
-    size=selected_models,
 )
 
 st.bar_chart(df_count_model_details, x="Manuf", y="Count Model", color="Count Model")
