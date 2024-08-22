@@ -48,7 +48,7 @@ st.dataframe(df_count_model_details)
 # Multi-select widget using 'Model' column as options
 selected_models = st.multiselect(
     'Select Model(s)',
-    options=df_avg_price_mileage['Model'].unique(),  # Options from 'Model' column
+    options=df_avg_price_mileage['Manuf'].unique(),  # Options from 'Model' column
     default=None  # You can set a default selection if needed
 )
 st.scatter_chart(
