@@ -14,7 +14,7 @@ from datetime import datetime
 
 url = 'https://raw.githubusercontent.com/ri-oz/Cars-Analytics/main/CarData.csv'
 
-df_Car = pd.read_csv(url, index_col=0)
+df_Car = pd.read_csv(url, index_col=0, sep=';')
 
 # Title
 
