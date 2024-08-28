@@ -38,7 +38,7 @@ st.dataframe(df_Car)
 
 
 # 1. Average price and mileage per Model Details and Manuf
-df_avg_price_mileage = df_Car.groupby(['Model Details', 'Manuf'])[['Price', 'Mileage']].mean().reset_index()
+df_avg_price_mileage = df_Car.groupby(['Model', 'Manuf'])[['Price', 'Mileage']].mean().reset_index()
 st.dataframe(df_avg_price_mileage)
 
 # 2. Count of Model Details per Manuf
@@ -62,7 +62,7 @@ with st.container():
         filtered_df,
         x="Price",
         y="Mileage",
-        color="Manuf",
+        color="Model",
     )
 
 
