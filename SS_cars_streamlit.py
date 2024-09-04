@@ -3,6 +3,9 @@ import pandas as pd
 import matplotlib.pyplot as plt
 import seaborn as sns
 
+# Ensure matplotlib does not crash in Streamlit
+plt.switch_backend('Agg')
+
 # Load the data
 url = 'https://raw.githubusercontent.com/ri-oz/Cars-Analytics/main/CarData.csv'
 data = pd.read_csv(url)
@@ -218,7 +221,4 @@ with col10:
         sns.barplot(data=grouped_manuf, x='Manuf', y='avg_mileage')
         plt.title('Average Mileage by Manufacturer')
         plt.xticks(rotation=45)
-        st.pyplot(plt.gcf())
-
-# Average Price and Mileage by Model
-grouped_model = filtered_data.groupby('Model')
+        st.pyplot
