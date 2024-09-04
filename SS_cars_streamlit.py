@@ -1,15 +1,7 @@
-
-
-#%%
-
-import pandas as pd
-#from pydrive.auth import GoogleAuth
-#from pydrive.drive import GoogleDrive
-#import pygsheets
 import streamlit as st
-import numpy as np
-from datetime import datetime
-import plotly.express as px
+import pandas as pd
+import matplotlib.pyplot as plt
+import seaborn as sns
 
 # Load the data
 url = 'https://raw.githubusercontent.com/ri-oz/Cars-Analytics/main/CarData.csv'
@@ -101,52 +93,69 @@ with col6:
     popular_color = filtered_data['Color'].mode()[0] if not filtered_data.empty else 'N/A'
     st.metric('Most Common Color', popular_color)
 
-# Price Distribution
+# Create Matplotlib charts
 st.markdown('### Price Distribution by Manufacturer')
-fig1 = px.box(filtered_data, x='Manuf', y='Price', color='Manuf', title='Price Distribution by Manufacturer')
-st.plotly_chart(fig1, use_container_width=True)
 
-# Mileage Distribution
+if not filtered_data.empty:
+    # Price distribution by manufacturer
+    plt.figure(figsize=(10, 6))
+    sns.boxplot(data=filtered_data, x='Manuf', y='Price')
+    plt.xticks(rotation=45)
+    plt.title('Price Distribution by Manufacturer')
+    st.pyplot(plt.gcf())
+else:
+    st.write("No data available for the selected filters.")
+
 st.markdown('### Mileage Distribution by Manufacturer')
-fig2 = px.box(filtered_data, x='Manuf', y='Mileage', color='Manuf', title='Mileage Distribution by Manufacturer')
-st.plotly_chart(fig2, use_container_width=True)
+
+if not filtered_data.empty:
+    # Mileage distribution by manufacturer
+    plt.figure(figsize=(10, 6))
+    sns.boxplot(data=filtered_data, x='Manuf', y='Mileage')
+    plt.xticks(rotation=45)
+    plt.title('Mileage Distribution by Manufacturer')
+    st.pyplot(plt.gcf())
 
 # Sales Analysis
 st.markdown('### Sales Analysis')
 
 # Average Price by Body Type
 st.markdown('#### Average Price by Body Type')
-fig3 = px.bar(
-    filtered_data.groupby('Body Type')['Price'].mean().reset_index(),
-    x='Body Type', y='Price', color='Body Type',
-    title='Average Price by Body Type'
-)
-st.plotly_chart(fig3, use_container_width=True)
+
+if not filtered_data.empty:
+    avg_price_by_body = filtered_data.groupby('Body Type')['Price'].mean().reset_index()
+    plt.figure(figsize=(10, 6))
+    sns.barplot(data=avg_price_by_body, x='Body Type', y='Price')
+    plt.title('Average Price by Body Type')
+    st.pyplot(plt.gcf())
 
 # Average Mileage by Transmission
 st.markdown('#### Average Mileage by Transmission')
-fig4 = px.bar(
-    filtered_data.groupby('Transmission')['Mileage'].mean().reset_index(),
-    x='Transmission', y='Mileage', color='Transmission',
-    title='Average Mileage by Transmission'
-)
-st.plotly_chart(fig4, use_container_width=True)
+
+if not filtered_data.empty:
+    avg_mileage_by_transmission = filtered_data.groupby('Transmission')['Mileage'].mean().reset_index()
+    plt.figure(figsize=(10, 6))
+    sns.barplot(data=avg_mileage_by_transmission, x='Transmission', y='Mileage')
+    plt.title('Average Mileage by Transmission')
+    st.pyplot(plt.gcf())
 
 # Motor Size Distribution
 st.markdown('#### Distribution of Motor Sizes')
-fig5 = px.histogram(
-    filtered_data, x='Motor Type_0', color='Motor Type_0',
-    title='Distribution of Motor Sizes'
-)
-st.plotly_chart(fig5, use_container_width=True)
+
+if not filtered_data.empty:
+    plt.figure(figsize=(10, 6))
+    sns.histplot(filtered_data['Motor Type_0'], kde=False, bins=10)
+    plt.title('Distribution of Motor Sizes')
+    st.pyplot(plt.gcf())
 
 # Motor Type Distribution
 st.markdown('#### Distribution of Motor Types')
-fig6 = px.histogram(
-    filtered_data, x='Motor Type_1', color='Motor Type_1',
-    title='Distribution of Motor Types'
-)
-st.plotly_chart(fig6, use_container_width=True)
+
+if not filtered_data.empty:
+    plt.figure(figsize=(10, 6))
+    sns.histplot(filtered_data['Motor Type_1'], kde=False, bins=10)
+    plt.title('Distribution of Motor Types')
+    st.pyplot(plt.gcf())
 
 # Cheapest and Most Expensive Cars
 st.markdown('### Cheapest and Most Expensive Cars')
@@ -193,58 +202,24 @@ grouped_manuf = filtered_data.groupby('Manuf').agg(
 col9, col10 = st.columns(2)
 with col9:
     st.markdown('#### Average Price by Manufacturer')
-    fig7 = px.bar(
-        grouped_manuf, x='Manuf', y='avg_price', color='Manuf',
-        title='Average Price by Manufacturer'
-    )
-    st.plotly_chart(fig7, use_container_width=True)
+    
+    if not grouped_manuf.empty:
+        plt.figure(figsize=(10, 6))
+        sns.barplot(data=grouped_manuf, x='Manuf', y='avg_price')
+        plt.title('Average Price by Manufacturer')
+        plt.xticks(rotation=45)
+        st.pyplot(plt.gcf())
 
 with col10:
     st.markdown('#### Average Mileage by Manufacturer')
-    fig8 = px.bar(
-        grouped_manuf, x='Manuf', y='avg_mileage', color='Manuf',
-        title='Average Mileage by Manufacturer'
-    )
-    st.plotly_chart(fig8, use_container_width=True)
+    
+    if not grouped_manuf.empty:
+        plt.figure(figsize=(10, 6))
+        sns.barplot(data=grouped_manuf, x='Manuf', y='avg_mileage')
+        plt.title('Average Mileage by Manufacturer')
+        plt.xticks(rotation=45)
+        st.pyplot(plt.gcf())
 
 # Average Price and Mileage by Model
 grouped_model = filtered_data.groupby('Model').agg(
-    avg_price=('Price', 'mean'),
-    avg_mileage=('Mileage', 'mean'),
-    total_sales=('Model', 'count')
-).reset_index()
-
-col11, col12 = st.columns(2)
-with col11:
-    st.markdown('#### Average Price by Model')
-    fig9 = px.bar(
-        grouped_model, x='Model', y='avg_price', color='Model',
-        title='Average Price by Model'
-    )
-    st.plotly_chart(fig9, use_container_width=True)
-
-with col12:
-    st.markdown('#### Average Mileage by Model')
-    fig10 = px.bar(
-        grouped_model, x='Model', y='avg_mileage', color='Model',
-        title='Average Mileage by Model'
-    )
-    st.plotly_chart(fig10, use_container_width=True)
-
-# Sales Trends Over Time (if Date data is available)
-# Note: The provided dataset does not include date/time data.
-# If such data exists, you can uncomment and adjust the following code.
-
-# st.markdown('### Sales Trends Over Time')
-# data['Sale Date'] = pd.to_datetime(data['Sale Date'])
-# sales_over_time = filtered_data.groupby('Sale Date').size().reset_index(name='Sales')
-# fig11 = px.line(sales_over_time, x='Sale Date', y='Sales', title='Sales Over Time')
-# st.plotly_chart(fig11, use_container_width=True)
-
-# Conclusion
-st.markdown('### Summary')
-st.write("""
-This dashboard provides a comprehensive analysis of car sales, allowing you to filter and compare different manufacturers, models, body types, transmissions, colors, and motor specifications based on price and mileage.
-
-Use the filters on the sidebar to customize the data displayed and gain insights into various aspects of the car market.
-""")
+    avg
