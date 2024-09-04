@@ -221,4 +221,4 @@ with col10:
         st.pyplot(plt.gcf())
 
 # Average Price and Mileage by Model
-grouped_model = filtered_data.groupby('Model').
+grouped_model = filtered_data.groupby('Model')
