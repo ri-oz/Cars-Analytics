@@ -10,6 +10,14 @@ plt.switch_backend('Agg')
 url = 'https://raw.githubusercontent.com/ri-oz/Cars-Analytics/main/CarData.csv'
 data = pd.read_csv(url)
 
+# Normalize column names: strip whitespace and convert to lowercase
+data.columns = data.columns.str.strip().str.lower()
+
+# If needed, map normalized column names back to their original form for easier use
+# Assuming your original columns are in camel case, map them back to the original format
+data.columns = data.columns.str.replace(' ', '_')  # Replace spaces with underscores, if needed
+
+
 # Check column names and handle cases where some are missing or have unexpected names
 expected_columns = ['Manuf', 'Model', 'Body Type', 'Transmission', 'Color', 'Motor Type_0', 'Motor Type_1', 'Price', 'Mileage']
 
