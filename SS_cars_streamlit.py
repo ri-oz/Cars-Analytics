@@ -5,10 +5,10 @@ import pandas as pd
 url = 'https://raw.githubusercontent.com/ri-oz/Cars-Analytics/main/CarData.csv'
 data = pd.read_csv(url)
 
-# Normalize column names: strip whitespace and convert to lowercase
+# Normalize column names: strip whitespace, replace spaces with underscores, and convert to lowercase
 data.columns = data.columns.str.strip().str.lower().str.replace(' ', '_')
 
-# Expected columns
+# Expected columns after normalization
 expected_columns = ['manuf', 'model', 'body_type', 'transmission', 'color', 'motor_type_0', 'motor_type_1', 'price', 'mileage']
 
 # Verify the columns exist in the dataset and handle missing ones gracefully
